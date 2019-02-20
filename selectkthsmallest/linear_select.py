@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 import time
 import random
@@ -96,39 +95,42 @@ def get_median_of_medians(big_array, k):
 print get_median_of_medians(l, k)
 
 
+
+
 # comparing times
-median_time_list, merge_time_list, insertion_time_list = [], [], []
-n = 500  # for choosing sorting algorithm when n is small (200 taken)
-l=l[:n]
-
-for i in range(2, n, 20): # values of size of arrays n in each loop
-    median_times, merge_times, insert_times = [], [], []
-    for j in range(0, 100): # random pick 20 times, calculate average time
-        arr = random.sample(l, i)  # take i samples from l (for plotting time
-        t0 = time.time()
-        a = get_median_of_medians(arr, i // 2)
-        # print(a)
-        t1 = time.time()
-        # calcualte time for merge sort
-        t2 = time.time()
-        c = merge_sort(arr)
-        # print(c[i//2-1])
-        t3 = time.time()
-        t4 = time.time()
-        c = insertion_sort(arr)
-        # print(c[i//2-1])
-        t5 = time.time()
-        median_times.append((t1 - t0) * 1000)
-        merge_times.append((t3 - t2) * 1000)
-        insert_times.append((t5 - t4) * 1000)
-    median_time_list.append(sum(median_times) / len(median_times))
-    merge_time_list.append(sum(merge_times) / len(merge_times))
-    insertion_time_list.append(sum(insert_times) / len(insert_times))
-
-plt.plot(range(2, n, 20), median_time_list)
-plt.plot(range(2, n, 20), merge_time_list)
-plt.plot(range(2, n, 20), insertion_time_list)
-plt.xlabel('Array Size: ', size=12)
-plt.ylabel('Run time in (ms): ', size=12)
-plt.legend(('Median of Medians', 'Merge sort', 'Insertion sort'), loc='upper left', prop={'size': 12})
-plt.savefig("comparison.png", format="png")
+# import matplotlib.pyplot as plt
+# median_time_list, merge_time_list, insertion_time_list = [], [], []
+# n = 500  # for choosing sorting algorithm when n is small (200 taken)
+# l=l[:n]
+#
+# for i in range(2, n, 20): # values of size of arrays n in each loop
+#     median_times, merge_times, insert_times = [], [], []
+#     for j in range(0, 100): # random pick 20 times, calculate average time
+#         arr = random.sample(l, i)  # take i samples from l (for plotting time
+#         t0 = time.time()
+#         a = get_median_of_medians(arr, i // 2)
+#         # print(a)
+#         t1 = time.time()
+#         # calcualte time for merge sort
+#         t2 = time.time()
+#         c = merge_sort(arr)
+#         # print(c[i//2-1])
+#         t3 = time.time()
+#         t4 = time.time()
+#         c = insertion_sort(arr)
+#         # print(c[i//2-1])
+#         t5 = time.time()
+#         median_times.append((t1 - t0) * 1000)
+#         merge_times.append((t3 - t2) * 1000)
+#         insert_times.append((t5 - t4) * 1000)
+#     median_time_list.append(sum(median_times) / len(median_times))
+#     merge_time_list.append(sum(merge_times) / len(merge_times))
+#     insertion_time_list.append(sum(insert_times) / len(insert_times))
+#
+# plt.plot(range(2, n, 20), median_time_list)
+# plt.plot(range(2, n, 20), merge_time_list)
+# plt.plot(range(2, n, 20), insertion_time_list)
+# plt.xlabel('Array Size: ', size=12)
+# plt.ylabel('Run time in (ms): ', size=12)
+# plt.legend(('Median of Medians', 'Merge sort', 'Insertion sort'), loc='upper left', prop={'size': 12})
+# plt.savefig("comparison.png", format="png")
