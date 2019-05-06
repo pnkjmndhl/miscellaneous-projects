@@ -2,6 +2,9 @@ import re
 import sys
 import textwrap
 
+txt_filename = 'new10000.txt'
+
+
 matrix = sys.argv[1]
 
 grid = ' '.join(textwrap.wrap(matrix, 4)).split()
@@ -18,7 +21,7 @@ import re
 alphabet = ''.join(set(''.join(grid)))
 bogglable = re.compile('[' + alphabet + ']{5,}$', re.I).match
 
-words = set(word.rstrip('\n') for word in open('words.txt') if bogglable(word))
+words = set(word.rstrip('\n') for word in open(txt_filename) if bogglable(word))
 prefixes = set(word[:i] for word in words
                for i in range(2, len(word) + 1))
 
