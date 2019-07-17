@@ -26,7 +26,7 @@ def getdatefromfilename(x):
 
 
 for audioname in filenames:
-    audioname=filenames[0]
+    #audioname=filenames[0]
     imagename = "dark.bmp"
     outputname = audioname.split('.')[0] + '.avi'
     outputname = outputname.replace("audios", "videos")
