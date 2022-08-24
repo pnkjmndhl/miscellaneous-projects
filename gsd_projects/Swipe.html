@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+<head>
+    <script>
+        function StartTiming() {
+            time = new Date();
+ 
+				start_time = time.getTime();
+				document.getElementById("TimeBox").value = 0;  
+        }
+        function EndTiming() {
+            time = new Date();
+            end_time = time.getTime();
+            time_difference = (end_time - start_time) / 1000;
+            document.getElementById("TimeBox").value = time_difference;
+        }
+    </script>
+</head>
+
+<body>
+    <form>
+        <input type="button" value="Start" onClick="StartTiming()">
+        <input type="button" value="End" onClick="EndTiming()">
+    </form>
+    <form>
+        Time Elapsed:
+        <input type="text" id="TimeBox" size="6"> secs
+    </form>
+</body>
+

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no" />
+    <title>Simple Map</title>
+    <link rel="stylesheet" href="http://js.arcgis.com/3.14/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.14/esri/css/esri.css">
+    <style>
+        html,
+        body,
+        body {
+            background-color: #FFF;
+            overflow: hidden;
+            font-family: "Trebuchet MS";
+        }
+    </style>
+    <script src="http://js.arcgis.com/3.14/"></script>
+    <script>
+        var map;
+        require(["esri/map", "esri/geometry/webMercatorUtils", "esri/dijit/Scalebar", "esri/dijit/BasemapGallery", "esri/dijit/OverviewMap", "esri/arcgis/utils", "dojo/parser", "dojo/dom", "dojo/domReady!"], function(Map, webMercatorUtils, Scalebar, BasemapGallery, OverviewMap, arcgisUtils, Parser, dom) {
+            map = new Map("map", {
+                basemap: "topo", //For full list of pre-defined basemaps, navigate to http://arcg.is/1JVo6Wd
+                center: [-83.927482, 35.956563], // longitude, latitude
+                zoom: 15,
+                sliderOrientation: "horizontal",
+                sliderPosition: "bottom-right",
+                sliderStyle: "large",
+                autoResize: "false"
+            });
+
+            var scalebar = new Scalebar({
+                map: map,
+                scalebarUnit: "dual"
+            });
+
+            var basemapGallery = new BasemapGallery({
+                showArcGISBasemaps: true,
+                map: map
+            }, "basemapGallery");
+            basemapGallery.startup();
+
+            var overviewMapDijit = new OverviewMap({
+                map: map,
+                visible: true
+            });
+            overviewMapDijit.startup();
+
+            map.on("load", function() {
+                //after map loads, connect to listen to mouse click events
+                map.on("click", showCoordinates);
+
+            });
+
+            function showCoordinates(evt) {
+                //the map is in web mercator but display coordinates in geographic (lat, long)
+                var map = webMercatorUtils.webMercatorToGeographic(evt.mapPoint);
+                //display mouse coordinates
+                dom.byId("info").innerHTML = map.x.toFixed(2) + ", " + map.y.toFixed(2) + "<br>" + evt.mapPoint.x.toFixed(2) + "," + evt.mapPoint.y.toFixed(2);
+            }
+
+        });
+    </script>
+</head>
+
+<body>
+    <div id="map" , style="position: absolute; width:100%; height:100%">
+        <span id="info" style="position:absolute; font-size: 20px; left:200px; bottom:15px; color:red; z-index:500;"></span>
+    </div>
+    <div style="position:absolute; left:20px; top:10px; z-Index:999;">
+        <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Switch Basemap', closable:false, open:false">
+            <div data-dojo-type="dijit/layout/ContentPane" style="width:380px; height:280px; overflow:auto;">
+                <div id="basemapGallery"></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

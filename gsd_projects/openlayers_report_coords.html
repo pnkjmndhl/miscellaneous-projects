@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Report Coordinates: </title>
+    <link rel="stylesheet" href="http://openlayers.org/en/v3.9.0/css/ol.css" type="text/css">
+    <script src="http://openlayers.org/en/v3.9.0/build/ol.js"></script>
+
+    <style type="text/css">
+        #map {
+            height: 400px;
+			width: 100%;
+			margin:0; 
+			}
+		p
+			{
+				font-weight: normal;
+			}
+		rr
+			{
+				font-weight: 900;
+			}
+				
+    </style>
+
+</head>
+
+<body>
+
+    <div id="map">
+    </div>
+
+    <div>
+
+		<rr>As in Text:</rr> 
+		<p id="reportbox"></p>
+        <p id="reportbox1"></p>
+			<rr>Problem 1:</rr>
+			<p id="reportbox2"></p>
+			<p id="reportbox3"></p>
+		<rr>Problem 2:</rr>
+        <p id="reportbox4"></p>
+        <p id="reportbox5"></p>
+    </div>
+
+    <script>
+        var layer = new ol.layer.Tile({
+            source: new ol.source.MapQuest({
+                layer: 'sat'
+            })
+        });
+
+        var map = new ol.Map({
+            layers: [layer],
+            target: 'map',
+            view: new ol.View({
+                center: [0, 0],
+                zoom: 2
+            })
+        });
+
+
+        map.on('click', function(evt) {
+
+            //now coordinate is in this format
+            // eg. [7.85, 47.983333]
+
+			var projected4326 = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+            var hdms = ol.coordinate.toStringHDMS(projected4326);
+
+            document.getElementById("reportbox").innerHTML = hdms;
+
+            var n = hdms.indexOf("N");
+            if (n == -1) {
+                n = hdms.indexOf("S");
+            }
+            var htms1 = hdms.substring(0, n + 1);
+            var htms2 = hdms.substring(n + 1);
+            var hdmsnew = htms2 + " " + htms1;
+            document.getElementById("reportbox1").innerHTML = hdmsnew;
+			
+			//part 2
+			document.getElementById("reportbox2").innerHTML = projected4326;
+			//switch latlon (projected4326))
+			var i = projected4326[0];
+			projected4326[0]=projected4326[1];
+			projected4326[1]=i;
+			document.getElementById("reportbox3").innerHTML = projected4326;
+			
+			//part 3
+			document.getElementById("reportbox4").innerHTML = evt.coordinate;
+			//switch latlon (projected4326))			
+			var i = evt.coordinate[0];
+			evt.coordinate[0]=evt.coordinate[1];
+			evt.coordinate[1]=i;
+			document.getElementById("reportbox5").innerHTML = evt.coordinate;
+			
+					
+
+
+        });
+    </script>
+</body>
+
+</html>
